@@ -129,55 +129,36 @@ async function main() {
 
     // Initialize provider and account
     const provider = new RpcProvider({ nodeUrl: PROVIDER_URL });
-    const account = new Account(provider, ACCOUNT_ADDRESS, PRIVATE_KEY);
+    const account = new Account(provider, ACCOUNT_ADDRESS, PRIVATE_KEY, "1");
+
 
     // casm madara_example_ByteStorage.compiled_contract_class.json
-    const casm = JSON.parse(fs.readFileSync('./target/dev/madara_example_ByteStorage.compiled_contract_class.json', 'utf8').toString('ascii'));
+    const casm = require('./target/dev/madara_example_ByteStorage.compiled_contract_class.json');
+    const compiledSierra = require('./target/dev/madara_example_ByteStorage.contract_class.json');
 
-    const compiledSierra = JSON.parse(fs.readFileSync('./target/dev/madara_example_ByteStorage.contract_class.json', 'utf8').toString('ascii'));
+    // const declareAndDeployResponse = await account.declareAndDeploy({
+    //   contract: compiledSierra,
+    //   casm: casm,
+    // }, {
+    //   resourceBounds: {
+    //     l1_gas: { max_amount: '0x0', max_price_per_unit: '0x0' },
+    //     l2_gas: { max_amount: '0x0', max_price_per_unit: '0x0' },
+    //   },
+    //   maxFee: '0x0'
+    // });
 
-    const declareResponse = await account.declare({
-      contract: compiledSierra,
-      casm: casm,
-    }, {
-      resourceBounds: {
-        l1_gas: { max_amount: '0x0', max_price_per_unit: '0x0' },
-        l2_gas: { max_amount: '0x0', max_price_per_unit: '0x0' },
-      },
-    });
-
-    console.log('ByteStorage Contract Class Hash =', declareResponse.class_hash, declareResponse);
+    // console.log('ByteStorage Contract Class Hash =', declareResponse.class_hash, declareResponse);
     
 
-
-    // const deployResponse = await account.declareAndDeploy(
-    //   {
-    //     contract: compiledSierra,
-    //     casm: casm,
-    //   },
-    //   {
-    //     resourceBounds: {
-    //       l1_gas: { max_amount: '0x0', max_price_per_unit: '0x0' },
-    //       l2_gas: { max_amount: '0x0', max_price_per_unit: '0x0' },
-    //     },
-    //   });
-
     // Connect the new contract instance:
-    // const myTestContract = new Contract(
-    //   compiledSierra.abi,
-    //   deployResponse.deploy.contract_address,
-    //   provider
-    // );
-    // console.log('ByteStorage Contract Class Hash =', deployResponse.declare.class_hash);
-    // console.log('✅ ByteStorage Contract connected at =', myTestContract.address);
-
-    return;
-
+    const contract = new Contract(
+      compiledSierra.abi,
+      CONTRACT_ADDRESS,
+      account
+    );
 
   
-    // Initialize contract
-    const contract = new Contract(CONTRACT_ABI, CONTRACT_ADDRESS, provider);
-    contract.connect(account);
+    // contract.connect(account);
 
     // Test text storage using built-in ByteArray functions first
     console.log('📝 Testing Text Storage with Built-in ByteArray Functions');
@@ -190,7 +171,7 @@ async function main() {
       // Test with random-like data as base64 encoded string
       // 'VGhpcyBpcyBhIHRlc3Qgb2YgcmFuZG9tLWxvb2tpbmcgZGF0YSBlbmNvZGVkIGFzIGJhc2U2NA==',
       // Larger text
-      '1234567890'.repeat(1) // 10 characters * 100 * 128 bytes = 1280000 bytes = 1.28mb
+      '1234567890'.repeat(1000 * 128) // 10 characters * 100 * 128 bytes = 128000 bytes = 1.28mb
     ];
 
     for (const text of testTexts) {
@@ -205,7 +186,9 @@ async function main() {
       const myCalldata = CallData.compile([byteArray.byteArrayFromString(text)]);
       console.log(`   My calldata:`, myCalldata);
 
-      const storeTextCall = await contract.store_byte_array(myCalldata);
+      const storeTextCall = await contract.store_byte_array(myCalldata, {
+        maxFee: '0x0',
+      });
       await provider.waitForTransaction(storeTextCall.transaction_hash);
       const textStoreTime = Date.now() - startTextStore;
 

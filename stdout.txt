@@ -1,0 +1,19 @@
+🚀 ByteArray Storage Demo - Large Data Handling
+
+ByteStorage Contract Class Hash = undefined {
+  declare: {
+    transaction_hash: "",
+    class_hash: "0x60690bacc2888dbdbf25daeaaa62f8e9d5237392c50a0628bf946f309bfad34",
+  },
+  deploy: {
+    transaction_hash: "0x6d83517031b7fec2dc66625595caa1b4897100f656587732fa76fcc97096f64",
+    contract_address: "0x53c8c4bd1fb816034367121639555b22960032f57cde100cdbf114b68898ef3",
+    address: "0x53c8c4bd1fb816034367121639555b22960032f57cde100cdbf114b68898ef3",
+    deployer: "0x4fe5eea46caa0a1f344fafce82b39d66b552f00d3cd12e89073ef4b4ab37860",
+    unique: "0x1",
+    classHash: "0x60690bacc2888dbdbf25daeaaa62f8e9d5237392c50a0628bf946f309bfad34",
+    calldata_len: "0x0",
+    calldata: [],
+    salt: "0x6b6061bde831ddd37f4dd2e516a6645d5ba45da2a3571003ffb2c6f90e76223",
+  },
+}
