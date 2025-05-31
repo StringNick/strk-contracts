@@ -1,0 +1,1 @@
+{"version":1,"contracts":[{"id":"erdhmfqbbnbau","package_name":"madara_example","contract_name":"ByteStorage","module_path":"madara_example::ByteStorage","artifacts":{"sierra":"madara_example_ByteStorage.contract_class.json","casm":"madara_example_ByteStorage.compiled_contract_class.json"}}]}

@@ -1,0 +1,13 @@
+{
+  "name": "madara_quickstart",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "starknet": "^6.24.1"
+  }
+}
