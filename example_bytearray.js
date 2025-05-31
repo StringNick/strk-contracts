@@ -149,6 +149,7 @@ async function main() {
     console.log('ByteStorage Contract Class Hash =', declareResponse.class_hash, declareResponse);
     
 
+
     // const deployResponse = await account.declareAndDeploy(
     //   {
     //     contract: compiledSierra,
@@ -254,44 +255,6 @@ async function main() {
     }
   }
 }
-
-// Deployment helper
-async function deployContract() {
-  try {
-    const provider = new RpcProvider({ nodeUrl: PROVIDER_URL });
-    const account = new Account(provider, ACCOUNT_ADDRESS, PRIVATE_KEY);
-
-    const classHash = '0x...'; // Get this from scarb build
-    const constructorCalldata = [];
-
-    const deployResponse = await account.deployContract({
-      classHash,
-      constructorCalldata
-    });
-
-    await provider.waitForTransaction(deployResponse.transaction_hash);
-
-    console.log('✅ Contract deployed!');
-    console.log('Contract Address:', deployResponse.contract_address);
-    console.log('Transaction Hash:', deployResponse.transaction_hash);
-
-    return deployResponse.contract_address;
-  } catch (error) {
-    console.error('❌ Deployment failed:', error);
-  }
-}
-
-// Package.json dependencies needed:
-/*
-{
-  "dependencies": {
-    "starknet": "^6.0.0"
-  }
-}
-*/
-
-// Uncomment to run deployment first
-// deployContract();
 
 // Run the ByteArray demo
 main(); 
