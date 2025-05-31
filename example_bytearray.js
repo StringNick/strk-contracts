@@ -216,18 +216,6 @@ async function main() {
       console.log(`   ⚡ Total time: ${totalTime}ms`);
       console.log(`   📈 Throughput: ${throughput} chars/second`);
     }
-
-
-    console.log('\n🎉 ByteArray testing completed!');
-    console.log('\n💡 Key insights about ByteArray storage:');
-    console.log('   • ByteArray is perfect for text and string data');
-    console.log('   • Binary data can be stored efficiently as base64 strings');
-    console.log('   • Built-in string conversion functions work reliably');
-    console.log('   • Excellent data integrity preservation');
-    console.log('   • Performance scales well with data size');
-    console.log('   • More storage-efficient than Map for large sequential data');
-    console.log('   • Ideal for storing documents, JSON, or encoded binary data');
-
   } catch (error) {
     console.error('❌ Error:', error);
     if (error.message) {
