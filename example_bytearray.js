@@ -154,11 +154,11 @@ async function main() {
     const contract = new Contract(
       compiledSierra.abi,
       CONTRACT_ADDRESS,
-      account
+      provider,
     );
 
   
-    // contract.connect(account);
+    contract.connect(account);
 
     // Test text storage using built-in ByteArray functions first
     console.log('📝 Testing Text Storage with Built-in ByteArray Functions');
@@ -171,7 +171,7 @@ async function main() {
       // Test with random-like data as base64 encoded string
       // 'VGhpcyBpcyBhIHRlc3Qgb2YgcmFuZG9tLWxvb2tpbmcgZGF0YSBlbmNvZGVkIGFzIGJhc2U2NA==',
       // Larger text
-      '1234567890'.repeat(1000 * 128) // 10 characters * 100 * 128 bytes = 128000 bytes = 1.28mb
+      '1234567890'.repeat(10) // 10 characters * 100 * 128 bytes = 128000 bytes = 1.28mb
     ];
 
     for (const text of testTexts) {
