@@ -198,13 +198,13 @@ async function main() {
 
       // Get current nonce before transaction
       const currentNonce = await account.getNonce();
-      const nonce = BigInt(currentNonce) + 1n;
-      console.log(`   Using nonce: ${nonce.toString(16)}`);
+      // const nonce = BigInt(currentNonce) + 1n;
+      // console.log(`   Using nonce: ${nonce.toString(16)}`);
 
 
       const storeTextCall = await contract.store_byte_array(myCalldata, {
         maxFee: '0x0',
-        nonce: nonce,
+        nonce: currentNonce,
       });
       
       console.log(`   🔄 Waiting for transaction: ${storeTextCall.transaction_hash}`);
