@@ -1,6 +1,0 @@
-[2025-05-31T21:47:35.967Z] WARN: You are using a deprecated transaction version (V0,V1,V2)!
-Update to the latest V3 transactions!
-{
-  "version": "0x1",
-  "type": "INVOKE"
-}

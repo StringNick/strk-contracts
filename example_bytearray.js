@@ -131,6 +131,16 @@ async function main() {
     const provider = new RpcProvider({ nodeUrl: PROVIDER_URL });
     const account = new Account(provider, ACCOUNT_ADDRESS, PRIVATE_KEY, "1");
 
+    // Check account details and nonce
+    console.log('🔍 Account Details:');
+    console.log(`   Address: ${ACCOUNT_ADDRESS}`);
+    
+    try {
+      const currentNonce = await account.getNonce();
+      console.log(`   Current Nonce: ${currentNonce}`);
+    } catch (nonceError) {
+      console.log(`   Nonce check failed: ${nonceError.message}`);
+    }
 
     // casm madara_example_ByteStorage.compiled_contract_class.json
     const casm = require('./target/dev/madara_example_ByteStorage.compiled_contract_class.json');
@@ -186,9 +196,18 @@ async function main() {
       const myCalldata = CallData.compile([byteArray.byteArrayFromString(text)]);
       console.log(`   My calldata:`, myCalldata);
 
+      // Get current nonce before transaction
+      const currentNonce = await account.getNonce();
+      const nonce = BigInt(currentNonce) + 1n;
+      console.log(`   Using nonce: ${nonce.toString(16)}`);
+
+
       const storeTextCall = await contract.store_byte_array(myCalldata, {
         maxFee: '0x0',
+        nonce: nonce,
       });
+      
+      console.log(`   🔄 Waiting for transaction: ${storeTextCall.transaction_hash}`);
       await provider.waitForTransaction(storeTextCall.transaction_hash);
       const textStoreTime = Date.now() - startTextStore;
 
@@ -215,6 +234,10 @@ async function main() {
       const throughput = Math.round((text.length * 2 * 1000) / totalTime);
       console.log(`   ⚡ Total time: ${totalTime}ms`);
       console.log(`   📈 Throughput: ${throughput} chars/second`);
+
+      // Add a small delay between transactions to avoid nonce conflicts
+      console.log(`   ⏳ Waiting 2 seconds before next transaction...`);
+      await new Promise(resolve => setTimeout(resolve, 2000));
     }
   } catch (error) {
     console.error('❌ Error:', error);
